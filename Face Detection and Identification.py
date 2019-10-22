@@ -17,9 +17,26 @@ from numpy import expand_dims
 from PIL import Image
 from numpy import asarray
 
+# Face Detection
 
 # In[10]:
-
+# to load a image and draw bounding boxes around faces with 5 facial points
+pyplot.figure(figsize=(20,10))
+test = pyplot.imread('test3.jpeg') #any random image used
+pyplot.imshow(test)
+ax = pyplot.gca()
+detector = MTCNN()
+faces = detector.detect_faces(test)
+ax = pyplot.gca()
+for face in faces:
+    x,y,width,height = face['box']
+    x2,y2 = x+width,y+height
+    rect = Rectangle((x,y),width,height,color = 'green',fill = False)
+    ax.add_patch(rect)
+    for key, value in face['keypoints'].items():
+        dot = Circle(value, radius=2, color='red')
+        ax.add_patch(dot)
+pyplot.show()
 
 # using MTCNN model to fetch face in a image
 pyplot.figure(figsize=(20,5))
@@ -59,18 +76,5 @@ results = decode_predictions(yhat)
 
 # In[20]:
 
-
+# results[0] will produce top 5 classification
 results[0]
-
-
-# In[44]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
